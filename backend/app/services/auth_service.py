@@ -1,14 +1,39 @@
-import os
-from pathlib import Path
+from datetime import datetime, timedelta, timezone
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-UPLOAD_DIR = BASE_DIR / "uploads"
-UPLOAD_DIR.mkdir(exist_ok=True)
+import jwt
+from passlib.context import CryptContext
 
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "civicguard-demo-secret-key")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
-MOCK_AI_MODE = os.getenv("MOCK_AI_MODE", "true").lower() == "true"
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
-MONGO_DB = os.getenv("MONGO_DB", "civicguard")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+from app.config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+
+def verify_password(password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(password, hashed_password)
+
+
+def create_token(subject: str, role: str) -> str:
+    now = datetime.now(timezone.utc)
+    payload = {
+        "sub": subject,
+        "role": role,
+        "exp": now + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        "iat": now,
+    }
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+
+def decode_token(token: str) -> dict:
+    return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
+
+def get_demo_user_passwords() -> dict:
+    return {
+        "student@civicguard.ai": "student123",
+        "worker@civicguard.ai": "worker123",
+        "admin@civicguard.ai": "admin123",
+    }

@@ -1,25 +1,17 @@
 # CivicGuard AI
 
-CivicGuard AI is an AI-powered infrastructure complaint and incident management platform for citizen reporting, incident clustering, worker coordination, and administrative oversight.
+CivicGuard AI is an AI-powered infrastructure complaint and incident management platform designed to turn citizen reports into actionable incidents.
 
 Tagline: "From Complaints to Action."
 
-## Features
+This repository contains a full-stack application with:
 
-- Citizens can register, report issues with photos, and track status.
-- AI clustering merges related complaints into a single real incident.
-- Priority and department recommendation are calculated automatically.
-- Workers handle prioritized assignments and submit repair verification.
-- Admins view analytics, assign departments and workers, and approve resolutions.
-- Interactive map shows incident status by severity.
-- Mock AI mode works without any external API key.
-
-## Tech stack
-
-- Frontend: React, TypeScript, Vite, Tailwind CSS, React Router, Axios, Leaflet
-- Backend: FastAPI, Pydantic, JWT
-- Data: MongoDB-ready models with in-memory demo storage fallback
-- AI: Modular mock AI service with deterministic recommendations
+- React + TypeScript + Vite frontend
+- FastAPI backend with JWT auth
+- MongoDB-ready domain models and mock in-memory storage
+- AI analysis, clustering, priority calculation, and verification layers
+- Role-based student/citizen, worker, and admin experiences
+- Interactive map and dashboard analytics
 
 ## Quick start
 
@@ -41,14 +33,13 @@ npm install
 npm run dev -- --host 0.0.0.0
 ```
 
-The app expects the backend at `http://localhost:8000`.
-
 ## Demo accounts
 
-- Student: `student@civicguard.ai` / `student123`
-- Worker: `worker@civicguard.ai` / `worker123`
-- Admin: `admin@civicguard.ai` / `admin123`
+- Student: student@civicguard.ai / student123
+- Worker: worker@civicguard.ai / worker123
+- Admin: admin@civicguard.ai / admin123
 
-## License
+### Notes
 
-MIT
+- The platform runs in mock AI mode when no external model key is configured.
+- The app is intentionally designed to work without an AI API key.

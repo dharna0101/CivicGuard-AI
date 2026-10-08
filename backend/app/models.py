@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Optional
 
 
 @dataclass
@@ -44,7 +44,7 @@ class Incident:
     latitude: float
     longitude: float
     location: str
-    supporting_report_ids: List[str] = field(default_factory=list)
+    supporting_report_ids: list[str] = field(default_factory=list)
     assigned_worker_id: Optional[str] = None
     assigned_worker_name: Optional[str] = None
     resolution_notes: Optional[str] = None
